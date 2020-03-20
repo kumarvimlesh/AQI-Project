@@ -1,6 +1,14 @@
+function updateCityName(){
+    cityName=document.getElementById('cityName').value;
+    fetchdata();
+}
+
+
 async function fetchdata(){
-	//alert("fetch");
-	const cityName=document.getElementById('cityName').value;
+
+    document.getElementById('load').style.display='block';
+    document.getElementById('main-body').style.display='none';
+
     const API_URL ='https://api.waqi.info/feed/'+cityName+'/?token=8fe7732294fcb34d3545aca8ca474fdd936bd9e4';
 	const response = await fetch(API_URL);
 	var json = await response.json();
@@ -31,7 +39,9 @@ async function fetchdata(){
         //alert(arr_data);
         document.getElementById("result").appendChild(list);
     }
-
+   
+    document.getElementById('load').style.display='none';
+    document.getElementById('main-body').style.display='block';
 
     console.log(arr_data);
     
