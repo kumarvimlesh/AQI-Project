@@ -6,12 +6,15 @@ async function fetchdata(){
 	var json = await response.json();
     console.log(json);
     if(json.status=='error'){
-        alert("Please Enter a valid City Name");
-        break;
+        alert("No Data Available for This City!");
+        exit(1);
     }
 
     var city=document.getElementById("cityname");
     city.innerHTML=json.data.city.name;
+    document.getElementById("geo-location").innerHTML="Latitude : "+json.data.city.geo[0]+" Longitude : "+json.data.city.geo[1];
+    document.getElementById("time").innerHTML="Last Updated : "+json.data.time.s;
+    document.getElementById("aqi").innerHTML="Air Quality Index : "+json.data.aqi;
     //alert(json.data.city.name);
     document.getElementById("result").innerHTML=" ";
 

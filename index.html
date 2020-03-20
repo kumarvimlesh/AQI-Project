@@ -12,8 +12,36 @@
         <script type="text/javascript" src="fetchdata.js"></script>
 
         <style type="text/css">
-            .main-heading,.input{
+            body{
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .header{
                 text-align: center;
+            }
+            input{
+                border: none;
+                outline: none;
+                border-bottom: 1px solid #3d8a9e;
+                font-weight: lighter;
+                font-family: sans-serif;
+            }
+            .button{
+                width: 30%;
+                height: 50px;
+                padding: 10px;
+                border-radius: 30px;
+                color: #000;
+                background-color: #fff;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+            .button:hover{
+                color: #fff;
+            }
+            #output{
+                padding-top: 30px;
             }
             div#output ul li{
                 list-style-type: none;
@@ -27,13 +55,16 @@
             <h2 class="main-heading">API and Charts</h2> 	
         </div>
   
-        <div>
-            <div class="input">
-        	    <input type="text" name="cityName" id="cityName" placeholder="Enter the City Name">
-                <button type="submit" onclick="fetchdata()">Search</button>
+        <div class="container" style="padding-top: 30px;">
+            <div class="row col-sm-12">
+        	    <input type="text" class="col-sm-4 offset-3" name="cityName" id="cityName" placeholder="Enter the City Name">
+                <button class="btn btn-primary button col-sm-2 " type="submit" onclick="fetchdata()">Search</button>
             </div>
-            <div id="output">
-                <h3 id="cityname"></h3>
+            <div id="output" class="offset-3">
+                <h3 id="cityname"></h3> 
+                <p id="geo-location"></p>
+                <p id="time"></p>
+                <h5 id="aqi"></h5>
                 <ul id="result">
                     
                 </ul>
