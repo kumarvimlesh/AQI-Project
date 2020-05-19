@@ -12,11 +12,23 @@ async function fetchdata(){
     const API_URL ='https://api.waqi.info/feed/'+cityName+'/?token=8fe7732294fcb34d3545aca8ca474fdd936bd9e4';
 	const response = await fetch(API_URL);
 	var json = await response.json();
-    console.log(json);
+        console.log(json);
+        console.log("1st end");
+ 
     if(json.status=='error'){
         alert("No Data Available for This City!");
+        document.getElementById('load').style.display='none';
+        document.getElementById('main-body').style.display='block';
         exit(1);
     }
+
+    const API_URL_2 ='http://api.airpollutionapi.com/1.0/aqi?lat='+json.data.city.geo[0]+'&lon='+json.data.city.geo[1]+'&APPID=or4n9b2q0qmdah9eg7mslqul9m';
+    const response2 = await fetch(API_URL_2);
+	var json2 = await response2.json();
+       console.log(json2);
+       console.log("2nd end");
+       console.log(json2.data.aqiParams[0].name+" = "+json2.data.aqiParams[0].value);
+
 
     var city=document.getElementById("cityname");
     city.innerHTML=json.data.city.name;
@@ -24,25 +36,53 @@ async function fetchdata(){
     document.getElementById("time").innerHTML="Last Updated : "+json.data.time.s;
     document.getElementById("aqi").innerHTML="Air Quality Index : "+json.data.aqi;
     document.getElementById("dominent").innerHTML="Dominent Polution : "+json.data.dominentpol;
+    document.getElementById("alert").innerHTML="ALERT : "+json2.data.alert;
+    
     //alert(json.data.city.name);
     document.getElementById("result").innerHTML=" ";
 
     var api_data=json.data.iaqi;
     
-    var arr_data=[];
-    for(var k in api_data){
-    	//console.log(k);
-    	//console.log(k+" = "+data[k].v);
+    var data_keys=[];
+    var data_values=[];
+    for(var l in api_data){
+        data_keys.push(l);
+        data_values.push(api_data[l].v);
+    }
+
+    var api_data2=json2.data.aqiParams;
+    for(var k in api_data2){
     	var list = document.createElement("li");
-        list.innerHTML=k+" = "+api_data[k].v;
-        arr_data.push([k+":"+api_data[k].v])
-        //alert(arr_data);
+        list.innerHTML=api_data2[k].name+"      "+api_data2[k].value;
         document.getElementById("result").appendChild(list);
     }
    
     document.getElementById('load').style.display='none';
     document.getElementById('main-body').style.display='block';
 
-    console.log(arr_data);
+    //console.log(data_keys);
+    //console.log(data_values);
+
+
+    //graph
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels:data_keys,
+        datasets: [{
+            label: 'Air Quality Level',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_values
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
     
 }
