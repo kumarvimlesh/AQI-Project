@@ -25,7 +25,7 @@
 
         <div id="main-body">
             <div class="header">
-                <h2 class="main-heading">API and Charts</h2> 	
+                <h2 class="main-heading">Air Quality Index</h2> 	
             </div>
   
             <div class="container" style="padding-top: 30px;">
@@ -33,16 +33,26 @@
             	    <input type="text" class="col-sm-4 offset-3" name="cityName" id="cityName" placeholder="Enter the City Name">
                     <button class="btn btn-primary button col-sm-2 " type="submit" onclick="updateCityName()">Search</button>
                 </div>
-                <div id="output" class="offset-3">
-                    <h3 id="cityname"></h3> 
-                    <p id="geo-location"></p>
-                    <p id="time"></p>
-                    <h5 id="aqi"></h5>
-                    <h5 id="dominent"></h5>
-                    <h3 id="alert" class="alert alert-danger"></h3>
-                    <ul id="result">
-                    
-                    </ul>
+                <div>
+                    <div id="output">
+                       <h2 id="cityname"></h2> 
+                       <p id="geo-location"></p>
+                       <p id="time"></p>
+                       <h1><span class="badge badge-primary" id="aqi"></span></h1>
+                       <h1><span class="badge badge-secondary" id="dominent"></span></h1>
+                       <h5 ></h5>
+                       <h3 id="alert" class="alert alert-danger"></h3>
+                    </div>
+                    <div class="row">
+                      <div class="offset-2">
+                         <ul id="result"> 
+                           
+                         </ul>
+                      </div>
+                      <div class="poll-bd offset-2">
+                         <span class="" id="pollution-badge"></span>
+                      </div> 
+                    </div>
                 </div>
             </div>
 

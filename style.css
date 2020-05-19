@@ -8,6 +8,9 @@ input{
     font-weight: lighter;
     font-family: sans-serif;
 }
+.main-heading{
+    text-align:center;
+}
 .button{
     width: 30%;
     height: 50px;
@@ -23,9 +26,20 @@ input{
 }
 #output{
     padding-top: 30px;
+    text-align:center;
 }
 div#output ul li{
     list-style-type: none;
+}
+.poll-bd{
+  padding-top:50px;
+}
+#pollution-badge{
+   padding:15px 10px 15px 10px;
+   font-size:30px;
+}
+#result{
+font-size:20px;
 }
 .loader {
   margin-left: 47%;

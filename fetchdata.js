@@ -38,6 +38,31 @@ async function fetchdata(){
     document.getElementById("dominent").innerHTML="Dominent Polution : "+json.data.dominentpol;
     document.getElementById("alert").innerHTML="ALERT : "+json2.data.alert;
     
+var poll_badge=document.getElementById("pollution-badge");
+if(json.data.aqi>=0 && json.data.aqi<=50){
+    poll_badge.innerHTML="GOOD";
+    poll_badge.className="badge badge-success";
+}
+if(json.data.aqi>=51 && json.data.aqi<=100){
+    poll_badge.innerHTML="MODERATE";
+    poll_badge.className="badge badge-warning";
+}
+if(json.data.aqi>=101 && json.data.aqi<=150){
+    poll_badge.innerHTML="UNHEALTHY FOR SENSITIVE GROUPS";
+    poll_badge.className="badge badge-success";
+}
+if(json.data.aqi>=151 && json.data.aqi<=200){
+    poll_badge.innerHTML="UNHEALTHY";
+    poll_badge.className="badge badge-danger";
+}
+if(json.data.aqi>=201 && json.data.aqi<=250){
+    poll_badge.innerHTML="VERY UNHEALTHY";
+    poll_badge.className="badge badge-info";
+}
+if(json.data.aqi>=201 && json.data.aqi<=250){
+    poll_badge.innerHTML="HAZARDOUS";
+    poll_badge.className="badge badge-danger";
+}
     //alert(json.data.city.name);
     document.getElementById("result").innerHTML=" ";
 
@@ -56,7 +81,10 @@ async function fetchdata(){
         list.innerHTML=api_data2[k].name+"      "+api_data2[k].value;
         document.getElementById("result").appendChild(list);
     }
-   
+    var templist=document.createElement("li");
+    templist.innerHTML="Temperature : "+json2.data.temp;
+    document.getElementById("result").appendChild(templist);
+
     document.getElementById('load').style.display='none';
     document.getElementById('main-body').style.display='block';
 
