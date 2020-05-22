@@ -1,5 +1,20 @@
 .header{
     text-align: center;
+    padding-top:10px;
+    padding-bottom:10px;
+    box-shadow: 8px 4px 2px 1px rgba(124, 40, 255, .4);
+}
+.nav{
+    margin-top:20px;
+    box-shadow: 8px 4px 8px 4px rgba(100,150,40,0.4);
+    font-size:22px;
+}
+.nav ul li a:hover{
+    background-color:#00f;
+    color:#fff;
+}
+.active{
+    background-color:#aef;
 }
 input{
     border: none;
@@ -24,6 +39,20 @@ input{
 .button:hover{
     color: #fff;
 }
+.comparison {
+    padding:10px 10px 10px 10px;
+    background-color: #ffe6ff;
+}
+.table{
+    padding:20px 20px 20px 20px;
+    box-shadow:8px 4px 8px 4px rgba(120, 84, 40, 0.4);
+    background-color: #f2f3f4;
+}
+.comp-chart{
+    padding:20px 5px 5px 5px;
+    background-color:#fff;
+    box-shadow:8px 4px 8px 4px rgba(120, 84, 40, 0.4);
+}
 #output{
     padding-top: 30px;
     text-align:center;
@@ -39,7 +68,13 @@ div#output ul li{
    font-size:30px;
 }
 #result{
-font-size:20px;
+   font-size:20px;
+}
+#map{
+   height:100%;
+}
+.gmap{
+   height:400px;
 }
 .loader {
   margin-left: 47%;

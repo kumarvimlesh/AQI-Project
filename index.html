@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en-us">
     <head>
@@ -10,64 +9,90 @@
         <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-       <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-
-        <script type="text/javascript" src="fetchdata.js"></script>
+        <script type="text/javascript" src="index.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
      
     </head>
-    <body>
-
-        <div id="load" class="loader">
-            
+    <body class="">
+        
+        <div class="header">
+             <b>
+                  <h2 class="text-center ">REAL-TIME AIR QUALITY INDEX(AQI)</h2>
+             </b>
+             <p class="text-center  "> Explore the real-time air quality, PM2.5, PM10, temperature ,humidity & noise data with AQI 
+                India outdoor air monitors</p>
         </div>
 
-        <div id="main-body">
-            <div class="header">
-                <h2 class="main-heading">Air Quality Index</h2> 	
-            </div>
-  
-            <div class="container" style="padding-top: 30px;">
-                <div class="row col-sm-12">
-            	    <input type="text" class="col-sm-4 offset-3" name="cityName" id="cityName" placeholder="Enter the City Name">
-                    <button class="btn btn-primary button col-sm-2 " type="submit" onclick="updateCityName()">Search</button>
-                </div>
-                <div>
-                    <div id="output">
-                       <h2 id="cityname"></h2> 
-                       <p id="geo-location"></p>
-                       <p id="time"></p>
-                       <h1><span class="badge badge-primary" id="aqi"></span></h1>
-                       <h1><span class="badge badge-secondary" id="dominent"></span></h1>
-                       <h5 ></h5>
-                       <h3 id="alert" class="alert alert-danger"></h3>
-                    </div>
-                    <div class="row">
-                      <div class="offset-2">
-                         <ul id="result"> 
-                           
-                         </ul>
-                      </div>
-                      <div class="poll-bd offset-2">
-                         <span class="" id="pollution-badge"></span>
-                      </div> 
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-8 offset-2" height="200">
-               <canvas id="myChart"></canvas>
-            </div>
-
-
+        <div class="navbar navbar-expand-sm nav">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="searchcity.html">Search Your City</a></li>
+          </ul>
         </div>
 
-        <script type="text/javascript">
-            var cityName = "delhi";
-            fetchdata();
-            document.getElementById('load').style.display='none';
-        </script>
+        <div class="comparison">
+           <div class="heading text-center">
+               <h3>AQI Comparison Among various Popular City</h3>
+           </div>
+           <div class="comp-body">
+              <div class="comp-heading text-center" style="font-size:20px;">
+                 <p class="badge badge-secondary""><span id="time"></span>
+                 <span class="badge badge-primary"> Real Time</span></p>
+              </div>
+              <hr>
+              
+              <div class="comp-table col-sm-10 offset-1">
+                   <div class="table">
+                        <table style="width:100%;">
+                             <tr>
+                                <td>CITIES</td>
+                                <td>AQI</td>
+                                <td>PM10</td>
+                                <td>PM2.5</td>
+                                <td>OZONE</td>
+                                <td>CO</td>
+                                <td>SO2</td>
+                                <td>NO2</td>
+                             </tr>
+                             <tr id="Delhi">
+                                <td>Delhi</td>
+                             </tr>
+                             <tr id="Noida">
+                                <td>Noida</td>
+                             </tr>
+                             <tr id="Chandigarh">
+                                <td>Chandigarh</td>
+                             </tr>
+                             <tr id="Kanpur">
+                                <td>Kanpur</td>
+                             </tr>
+                             <tr id="Kolkata">
+                                <td>Kolkata</td>
+                             </tr>
+                             <tr id="Ahmedabad">
+                                <td>Ahmedabad</td>
+                             </tr>
+                             <tr id="Bengaluru">
+                                <td>Bengaluru</td>
+                             </tr>
+                             <tr id="Mumbai">
+                                <td>Mumbai</td>
+                             </tr>
+                             <tr id="Pune">
+                                <td>Pune</td>
+                             </tr>
+                        </table>
+                   </div>  
+              </div>
+              <br><br>
+              <div class="comp-chart col-sm-10 offset-1">
+                    <div id="chartContainer" style="height: 400px; width: 100%; padding:20px 5px 5px 5px;"></div>                      
+              </div>
+           </div>
+        </div>  
+
+       <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>  
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

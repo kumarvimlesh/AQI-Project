@@ -1,6 +1,7 @@
 function updateCityName(){
     cityName=document.getElementById('cityName').value;
     fetchdata();
+    alert(city_lat);
 }
 
 
@@ -14,6 +15,7 @@ async function fetchdata(){
 	var json = await response.json();
         console.log(json);
         console.log("1st end");
+
  
     if(json.status=='error'){
         alert("No Data Available for This City!");
@@ -22,7 +24,13 @@ async function fetchdata(){
         exit(1);
     }
 
-    const API_URL_2 ='http://api.airpollutionapi.com/1.0/aqi?lat='+json.data.city.geo[0]+'&lon='+json.data.city.geo[1]+'&APPID=or4n9b2q0qmdah9eg7mslqul9m';
+    var city_lat=json.data.city.geo[0];
+    var city_long=json.data.city.geo[1];
+
+    ///////google map function call
+    initMap(city_lat,city_long);
+
+    const API_URL_2 ='http://api.airpollutionapi.com/1.0/aqi?lat='+city_lat+'&lon='+city_long+'&APPID=or4n9b2q0qmdah9eg7mslqul9m';
     const response2 = await fetch(API_URL_2);
 	var json2 = await response2.json();
        console.log(json2);
@@ -90,7 +98,7 @@ if(json.data.aqi>=201 && json.data.aqi<=250){
 
     //console.log(data_keys);
     //console.log(data_values);
-
+    
 
     //graph
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -111,6 +119,18 @@ if(json.data.aqi>=201 && json.data.aqi<=250){
 
     // Configuration options go here
     options: {}
-});
-    
+    });
+
+   
 }
+
+////map function
+function initMap(latt,long) {
+    var geoloc={lat: latt, lng: long};
+    var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: geoloc});
+    var marker = new google.maps.Marker({position: geoloc, map: map});
+}
+
+document.getElementById('load').style.display='none';
+document.getElementById('main-body').style.display='block';
+
