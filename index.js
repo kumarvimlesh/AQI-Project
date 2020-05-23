@@ -1,4 +1,4 @@
-var cities=['Delhi','Noida','Chandigarh','Kanpur','Kolkata','Ahmedabad','Bengaluru','Mumbai','Pune'];
+var cities=['Delhi','Noida','Narela','Kanpur','Kolkata','Ahmedabad','Bengaluru','Mumbai','Pune'];
 var cities_aqi=[];
 var dataset=[];
 for(k in cities){
@@ -7,14 +7,12 @@ for(k in cities){
 
 console.log(dataset);
 
-alert("Loading...");
-sleep(4000);
-alert("Press Enter");
 
-
-window.onload = function () {
+async function drawchart() {
+   
+    //alert("reach drawchart");
     var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light1",
+	theme: "light2",
 	animationEnabled: true, // change to true		
 	title:{
 		text: "AQI Comparison Chart"
@@ -30,15 +28,10 @@ window.onload = function () {
     chart.render();
 }
 
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
 
 async function fetchdata(cityName){
+
+    //alert(cityName);
 
      const API_URL ='https://api.waqi.info/feed/'+cityName+'/?token=8fe7732294fcb34d3545aca8ca474fdd936bd9e4';
      const response = await fetch(API_URL);
@@ -105,6 +98,10 @@ async function fetchdata(cityName){
      else    
         td7.innerHTML=json.data.iaqi.no2.v;
      document.getElementById(cityName).appendChild(td7);   
+
+     if(cityName=="Pune"){
+        drawchart();
+     }
      
 }
 

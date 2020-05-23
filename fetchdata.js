@@ -67,7 +67,7 @@ if(json.data.aqi>=201 && json.data.aqi<=250){
     poll_badge.innerHTML="VERY UNHEALTHY";
     poll_badge.className="badge badge-info";
 }
-if(json.data.aqi>=201 && json.data.aqi<=250){
+if(json.data.aqi>=250){
     poll_badge.innerHTML="HAZARDOUS";
     poll_badge.className="badge badge-danger";
 }
@@ -78,16 +78,15 @@ if(json.data.aqi>=201 && json.data.aqi<=250){
     
     var data_keys=[];
     var data_values=[];
-    for(var l in api_data){
-        data_keys.push(l);
-        data_values.push(api_data[l].v);
-    }
-
     var api_data2=json2.data.aqiParams;
     for(var k in api_data2){
     	var list = document.createElement("li");
         list.innerHTML=api_data2[k].name+"      "+api_data2[k].value;
         document.getElementById("result").appendChild(list);
+        if(api_data2[k].aqi!=null){
+           data_keys.push(api_data2[k].name);
+           data_values.push(api_data2[k].aqi);
+        }
     }
     var templist=document.createElement("li");
     templist.innerHTML="Temperature : "+json2.data.temp;
@@ -96,15 +95,15 @@ if(json.data.aqi>=201 && json.data.aqi<=250){
     document.getElementById('load').style.display='none';
     document.getElementById('main-body').style.display='block';
 
-    //console.log(data_keys);
-    //console.log(data_values);
+    console.log(data_keys);
+    console.log(data_values);
     
 
     //graph
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
     // The type of chart we want to create
-    type: 'bar',
+    type: 'horizontalBar',
 
     // The data for our dataset
     data: {
