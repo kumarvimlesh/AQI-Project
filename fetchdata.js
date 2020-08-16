@@ -130,6 +130,4 @@ function initMap(latt,long) {
     var marker = new google.maps.Marker({position: geoloc, map: map});
 }
 
-document.getElementById('load').style.display='none';
-document.getElementById('main-body').style.display='block';
 
