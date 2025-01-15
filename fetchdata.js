@@ -1,133 +1,109 @@
-function updateCityName(){
-    cityName=document.getElementById('cityName').value;
+function updateCityName() {
+    cityName = document.getElementById('cityName').value;
+    if (!cityName) {
+        alert("Please enter a city name.");
+        return;
+    }
     fetchdata();
-    alert(city_lat);
 }
 
+async function fetchdata() {
+    console.log("Fetching data...");
+    document.getElementById('load').style.display = 'block';
+    document.getElementById('main-body').style.display = 'none';
 
-async function fetchdata(){
+    const API_URL = `https://api.waqi.info/feed/${cityName}/?token=8fe7732294fcb34d3545aca8ca474fdd936bd9e4`;
 
-    document.getElementById('load').style.display='block';
-    document.getElementById('main-body').style.display='none';
+    try {
+        const response = await fetch(API_URL);
+        const json = await response.json();
 
-    const API_URL ='https://api.waqi.info/feed/'+cityName+'/?token=8fe7732294fcb34d3545aca8ca474fdd936bd9e4';
-	const response = await fetch(API_URL);
-	var json = await response.json();
-        console.log(json);
-        console.log("1st end");
-
- 
-    if(json.status=='error'){
-        alert("No Data Available for This City!");
-        document.getElementById('load').style.display='none';
-        document.getElementById('main-body').style.display='block';
-        exit(1);
-    }
-
-    var city_lat=json.data.city.geo[0];
-    var city_long=json.data.city.geo[1];
-
-    ///////google map function call
-    initMap(city_lat,city_long);
-
-    const API_URL_2 ='http://api.airpollutionapi.com/1.0/aqi?lat='+city_lat+'&lon='+city_long+'&APPID=19bthg8s08ol9shkfqc6mppoii';
-    const response2 = await fetch(API_URL_2);
-	var json2 = await response2.json();
-       console.log(json2);
-       console.log("2nd end");
-       console.log(json2.data.aqiParams[0].name+" = "+json2.data.aqiParams[0].value);
-
-
-    var city=document.getElementById("cityname");
-    city.innerHTML=json.data.city.name;
-    document.getElementById("geo-location").innerHTML="Latitude : "+json.data.city.geo[0]+" Longitude : "+json.data.city.geo[1];
-    document.getElementById("time").innerHTML="Last Updated : "+json.data.time.s;
-    document.getElementById("aqi").innerHTML="Air Quality Index : "+json.data.aqi;
-    document.getElementById("dominent").innerHTML="Dominent Polution : "+json.data.dominentpol;
-    document.getElementById("alert").innerHTML="ALERT : "+json2.data.alert;
-    
-var poll_badge=document.getElementById("pollution-badge");
-if(json.data.aqi>=0 && json.data.aqi<=50){
-    poll_badge.innerHTML="GOOD";
-    poll_badge.className="badge badge-success";
-}
-if(json.data.aqi>=51 && json.data.aqi<=100){
-    poll_badge.innerHTML="MODERATE";
-    poll_badge.className="badge badge-warning";
-}
-if(json.data.aqi>=101 && json.data.aqi<=150){
-    poll_badge.innerHTML="UNHEALTHY FOR SENSITIVE GROUPS";
-    poll_badge.className="badge badge-success";
-}
-if(json.data.aqi>=151 && json.data.aqi<=200){
-    poll_badge.innerHTML="UNHEALTHY";
-    poll_badge.className="badge badge-danger";
-}
-if(json.data.aqi>=201 && json.data.aqi<=250){
-    poll_badge.innerHTML="VERY UNHEALTHY";
-    poll_badge.className="badge badge-info";
-}
-if(json.data.aqi>=250){
-    poll_badge.innerHTML="HAZARDOUS";
-    poll_badge.className="badge badge-danger";
-}
-    //alert(json.data.city.name);
-    document.getElementById("result").innerHTML=" ";
-
-    var api_data=json.data.iaqi;
-    
-    var data_keys=[];
-    var data_values=[];
-    var api_data2=json2.data.aqiParams;
-    for(var k in api_data2){
-    	var list = document.createElement("li");
-        list.innerHTML=api_data2[k].name+"      "+api_data2[k].value;
-        document.getElementById("result").appendChild(list);
-        if(api_data2[k].aqi!=null){
-           data_keys.push(api_data2[k].name);
-           data_values.push(api_data2[k].aqi);
+        if (json.status === 'error') {
+            alert("No Data Available for This City!");
+            document.getElementById('load').style.display = 'none';
+            document.getElementById('main-body').style.display = 'block';
+            return;
         }
+
+        const city_lat = json.data.city.geo[0];
+        const city_long = json.data.city.geo[1];
+        initMap(city_lat, city_long);
+
+        const API_URL_2 = `http://api.airpollutionapi.com/1.0/aqi?lat=${city_lat}&lon=${city_long}&APPID=19bthg8s08ol9shkfqc6mppoii`;
+        const response2 = await fetch(API_URL_2);
+        const json2 = await response2.json();
+
+        document.getElementById("cityname").innerHTML = json.data.city.name;
+        document.getElementById("geo-location").innerHTML = `Latitude: ${city_lat} Longitude: ${city_long}`;
+        document.getElementById("time").innerHTML = `Last Updated: ${json.data.time.s}`;
+        document.getElementById("aqi").innerHTML = `Air Quality Index: ${json.data.aqi}`;
+        document.getElementById("dominent").innerHTML = `Dominant Pollution: ${json.data.dominentpol}`;
+        document.getElementById("alert").innerHTML = `ALERT: ${json2.data.alert}`;
+
+        const poll_badge = document.getElementById("pollution-badge");
+        const aqi = json.data.aqi;
+        if (aqi <= 50) {
+            poll_badge.innerHTML = "GOOD";
+            poll_badge.className = "badge badge-success";
+        } else if (aqi <= 100) {
+            poll_badge.innerHTML = "MODERATE";
+            poll_badge.className = "badge badge-warning";
+        } else if (aqi <= 150) {
+            poll_badge.innerHTML = "UNHEALTHY FOR SENSITIVE GROUPS";
+            poll_badge.className = "badge badge-success";
+        } else if (aqi <= 200) {
+            poll_badge.innerHTML = "UNHEALTHY";
+            poll_badge.className = "badge badge-danger";
+        } else if (aqi <= 250) {
+            poll_badge.innerHTML = "VERY UNHEALTHY";
+            poll_badge.className = "badge badge-info";
+        } else {
+            poll_badge.innerHTML = "HAZARDOUS";
+            poll_badge.className = "badge badge-danger";
+        }
+
+        const api_data2 = json2.data.aqiParams;
+        const result = document.getElementById("result");
+        result.innerHTML = "";
+        const data_keys = [];
+        const data_values = [];
+        api_data2.forEach(param => {
+            const list = document.createElement("li");
+            list.innerHTML = `${param.name}: ${param.value}`;
+            result.appendChild(list);
+
+            if (param.aqi !== null) {
+                data_keys.push(param.name);
+                data_values.push(param.aqi);
+            }
+        });
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: data_keys,
+                datasets: [{
+                    label: 'Air Quality Level',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: data_values
+                }]
+            },
+            options: {}
+        });
+
+        document.getElementById('load').style.display = 'none';
+        document.getElementById('main-body').style.display = 'block';
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        document.getElementById('load').style.display = 'none';
+        document.getElementById('main-body').style.display = 'block';
     }
-    var templist=document.createElement("li");
-    templist.innerHTML="Temperature : "+json2.data.temp;
-    document.getElementById("result").appendChild(templist);
-
-    document.getElementById('load').style.display='none';
-    document.getElementById('main-body').style.display='block';
-
-    console.log(data_keys);
-    console.log(data_values);
-    
-
-    //graph
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'horizontalBar',
-
-    // The data for our dataset
-    data: {
-        labels:data_keys,
-        datasets: [{
-            label: 'Air Quality Level',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: data_values
-        }]
-    },
-
-    // Configuration options go here
-    options: {}
-    });
-
-   
 }
 
-////map function
-function initMap(latt,long) {
-    var geoloc={lat: latt, lng: long};
-    var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: geoloc});
-    var marker = new google.maps.Marker({position: geoloc, map: map});
+function initMap(latt, long) {
+    const geoloc = { lat: latt, lng: long };
+    const map = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: geoloc });
+    new google.maps.Marker({ position: geoloc, map: map });
 }
-
-
