@@ -29,7 +29,7 @@ async function fetchdata() {
         const city_long = json.data.city.geo[1];
         initMap(city_lat, city_long);
 
-        const API_URL_2 = `http://api.airpollutionapi.com/1.0/aqi?lat=${city_lat}&lon=${city_long}&APPID=19bthg8s08ol9shkfqc6mppoii`;
+        const API_URL_2 = `https://api.airpollutionapi.com/1.0/aqi?lat=${city_lat}&lon=${city_long}&APPID=19bthg8s08ol9shkfqc6mppoii`;
         const response2 = await fetch(API_URL_2);
         const json2 = await response2.json();
 
